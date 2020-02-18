@@ -1,0 +1,409 @@
+constant is an entity that doesn't change classif into 
+int constant-whole number,
+real constant-number with decimal
+and character constant-digit or lettr or symbol in a single quote.
+
+variable is n entity that changes
+variable names are given to memory locations
+ex:- X is a variable that can contain any variable.
+
+Keywords are predefined words to the compiler ex:-break,for,if float etc.
+
+Function is a collection of statements to do a particular task
+
+1.
+#include <stdio.h>
+
+#include<conio.h>
+
+int main()
+
+{
+    
+printf("Hello World");
+
+getch();
+    
+return 0;
+
+
+}
+
+steps:
+1.Declaration of variables 2.Assignment of values to variables 3.Printing to screen
+
+2.
+#include<stdio.h>
+
+#include<conio.h>
+
+int main()
+
+{
+
+int age;
+
+float weight;
+
+char gender;
+
+
+age=22;
+
+weight=62.5;
+
+gender='m';
+
+
+printf("%d \n%f \n%c",age,weight,gender);
+
+return 0;
+
+}
+
+%d %f %c is known as format string
+
+3.#include<stdio.h>
+#include<conio.h>
+int main()
+{
+int score;
+float overs;
+char country;
+
+score=151;
+overs=22.5;
+country='i';
+
+printf("%d \n%f \n%c",score,overs,country);
+return 0;
+}
+
+printf:-used to print on the screen 
+printf("format string",list of address of variables);
+
+4.#include<stdio.h>
+#include<conio.h>
+int main()
+{
+int age;
+age=22;
+printf("his name is 'ajay' \nhis age is %d",age);
+return 0;
+}
+5.#include<stdio.h>
+#include<conio.h>
+int main()
+{
+int age;
+age=22;
+printf("his name is \"ajay\" \nhis age is %d",age);
+return 0;
+}
+
+scanf:-used to take inputs 
+scanf("format string",list of address of variables);
+scanf functin deals with the address of variable so we use &
+
+6.int main()
+{
+  char country;
+  float overs;
+  int score;
+  
+  printf("enter your country\n");
+  printf("enter the number of overs\n");
+  printf("enter the score\n");
+  
+  scanf("%c",&country);
+  scanf("%f",&overs);
+  scanf("%d",&score);
+  
+  printf("your country is %c\n",country);
+  printf("the number of overs are %f\n",overs);
+  printf("the score is %d\n",score);
+  
+  return 0;
+    
+}
+7.int main()
+{
+  char country;
+  float overs;
+  int score;
+  
+  printf("enter your country,overs and score\n");
+  
+  scanf("%c %f %d",&country,&overs,&score);
+
+  printf("your country is %c\n the number of overs are %f\n the score is %d\n ",country,overs,score);
+  
+  return 0;
+}
+
+Ifelse:- used to excute program based on sme conditions.
+if(expression)
+{
+statements;
+}
+/based on expressions statements will be executd/
+example:- #include <stdio.h>
+int main()
+{
+    float age = 16;
+    if(age>=18)
+    {
+        printf("okay you are adult\n");
+        printf("you are elgible");
+    }
+    else
+    {
+        printf("you are minor\n");
+        printf("you are not elgible");
+    }
+    return 0;
+}
+>= is a relational operator
+
+arithmetic operators:+ - * / % ++ --
+ex1:#include <stdio.h>
+int main()
+{
+  float num1=10.5,num2=20.33,addition=num1+num2;
+   
+   printf("the addition of two numbers is %f",addition);
+    return 0;
+}
+ex2:#include <stdio.h>
+int main()
+{
+  float num1=10.5,num2=20.33,sub=num1-num2;
+   
+   printf("the sub of two numbers is %f",sub);
+    return 0;
+}
+
+Logical operators: AND &&,OR ||
+#include <stdio.h>
+
+int main()
+{
+    int age;
+    printf("enter your age   ");
+    scanf("%d", &age);
+    if(age<=18 && age>=13)
+    {
+    printf("u are a teenager");
+}
+else
+{
+    printf("u are not a teenager");
+}
+    return 0;
+}
+ 
+increment nd decrement:++,--
+can be used as suffix nd prefix
+#include <stdio.h>
+
+int main()
+{
+    int x=20;
+    printf("x value is %d\n",++x);
+    return 0;
+}
+
+#include <stdio.h>
+
+int main()
+{
+    int x=21;
+    printf("x value is %d\n",--x);
+    return 0;
+}
+
+
+Ternary operators:they are used as alternative for if and else
+syntax: /* expression1 ?  expression2 :  expression3;
+#include <stdio.h>
+
+int main()
+{
+    int age=16;
+    int x;
+    x= (age>=18)?1:0;
+    printf(" %d",x);
+    return 0;
+}
+
+loops:-for,while,do while
+while loop:-is used to excute statements repeatedly 
+syntax:- 
+while(expression/condition)
+{
+ statements;
+}
+ex:-#include <stdio.h>
+
+int main()
+{
+    int age=5;
+    while(age<=10)
+    {
+        printf("%d\n",age);
+        age++;
+    }
+    return 0;
+}
+
+
+for loop:- is used for looping purpose like while loop
+sytax:-
+for(intialize the counter;condition/test the counter;incremnt/decremnt the counter)
+{
+statements;
+}
+ex:#include <stdio.h>
+
+int main()
+{
+    int age;
+    for(age=10;age<=20;age++)
+    {
+        printf("%d\n",age);
+    }
+    return 0;
+}
+
+ex:#include <stdio.h>
+
+int main()
+{
+    int age;
+    for(  ;  ;  )
+    {
+        printf("%d\n",age);
+        age++;
+        if(age==5)
+        break;
+    }
+    return 0;
+}
+
+dowhile:similar to while but the test conditn in do while is at end of loop
+syntax:-
+do
+{
+statements;
+}
+while(the conition is true);
+ ex:#include <stdio.h>
+
+int main()
+{
+    int age;
+    do
+    {
+        printf("hello\n",age);
+        age++;
+    }
+    while(age<=10);
+    return 0;
+}
+
+
+break:-it is used for immediate termination of loop  or terminate case condition in switch
+ex: #include <stdio.h>
+int main()
+{
+    int age;
+    for(age=1;age<=5;age++)
+    {
+        if(age==5)
+      {
+          break;
+      }
+        printf("hello\n",age);
+    }
+    while(age<=10);
+    return 0;
+}
+
+
+continue:if u want to skip in for or while program, it skips the printf statemnt and goes for the next condition
+ex:-#include <stdio.h>
+int main()
+{
+    int age;
+    for(age=1;age<=5;age++)
+    {
+     if(age==2)
+     continue;
+        printf("%d\n",age);
+    }
+    while(age<=10);
+    return 0;
+}
+#include <stdio.h>
+int main()
+{
+    int age;
+    for(age=1;age<=10;age++)
+    {
+     if((age%2)==0)
+     continue;
+        printf("%d\n",age);
+    }
+    while(age<=10);
+    return 0;
+}
+#include <stdio.h>
+int main()
+{
+    int age;
+    for(age=1;age<=10;age++)
+    {
+     if((age%2)!=0)
+     continue;
+        printf("%d\n",age);
+    }
+    while(age<=10);
+    return 0;
+}
+
+switch:
+syntax:
+switch(expression)
+{
+case constant1:
+statements;
+case constant 2:
+statements;
+default:
+statements;
+}
+#include <stdio.h>
+int main()
+{
+    int number;
+    printf("enter the case ");
+    scanf("%d",&number);
+    switch(number)
+    {
+     case1:
+     printf("hello\n");
+     break;
+     
+     case 2:
+        printf("welcome\n");
+        break;
+ case 3:
+        printf("bye\n");
+        break;
+        
+        default:
+        printf("sorry");
+    }
+    return 0;
+}
+   
