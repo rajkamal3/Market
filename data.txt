@@ -1,0 +1,368 @@
+App.js:
+import React, { Component } from 'react';
+import Layout from './components/layout/layout';
+import styles from './App.css';
+
+class App extends Component {
+    componentDidMount() {
+        handleIframe();
+    }
+
+    render() {
+        return (
+            <div className={styles.holder}>
+                <Layout />
+            </div>
+        );
+    }
+}
+
+export default App;
+
+export const handleIframe = () => {
+    if (window.self === window.top) {
+        var antiClickjack = document.querySelector('#antiClickjack');
+        antiClickjack.parentNode.removeChild(antiClickjack);
+    } else {
+        window.top.location = window.self.location;
+    }
+};
+
+
+
+
+
+
+
+
+App.css:
+.holder {
+  display: flex;
+  justify-content: center;
+  background-color: #1e1e25;
+}
+
+
+
+
+
+
+
+
+
+layout.js
+import React, { Component } from 'react';
+import axios from 'axios';
+import styles from './layout.css';
+import Invest from '../_invest/invest';
+
+class Layout extends Component {
+  render() {
+    return (
+      <div className={styles.container}>
+        <Invest />
+      </div>
+    );
+  }
+}
+
+export default Layout;
+
+
+
+
+
+
+
+
+
+layout.css:
+.container {
+    width: 1024px;
+    min-height: 162vh;
+    background-color: #333743;
+    color: #feffff;
+}
+
+
+
+
+
+
+
+
+
+invest.js:
+import React, { Component } from 'react';
+import AartiIndustries from './_aartiIndustries';
+import ApolloTyres from './_apolloTyres';
+
+class Invest extends Component {
+    render() {
+        return (
+            <div>
+                <AartiIndustries />
+                <ApolloTyres />
+            </div>
+        );
+    }
+}
+
+export default Invest;
+
+
+
+
+
+
+
+
+
+invest.css:
+.companyContainer {
+    background-color: #424554;
+    padding: 20px;
+    display: grid;
+    grid-template-rows: repeat(2, 40px);
+    grid-template-columns: repeat(3, 387px);
+    margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+_aartiIndustries.js:
+import React, { Component } from 'react';
+import axios from 'axios';
+import parse from 'node-html-parser';
+import styles from './invest.css';
+
+class AartiIndusrties extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            aartiIndustriesData: null,
+            aartiIndustries: {
+
+            }
+        }
+    }
+
+    componentDidMount() {
+        const aartiIndustriesURL = 'https://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45';
+
+        const header = {
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Allow-Origin": "*",
+            "User-Agent": "PostmanRuntime/7.22.0",
+            "Accept": "*/*",
+            "Postman-Token": "6dd814e9-4517-4ab3-8b14-0d4630576312",
+            "X-Frame-Options": "SAMEORIGIN"
+        }
+
+        axios.get(aartiIndustriesURL, header).then(res => {
+            this.setState({
+                aartiIndustriesData: res.data
+            })
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    
+
+    handleAarti = () => {
+        //AARTI INDUSTRIES
+        let rawData = this.state.aartiIndustriesData;
+        const parsed = parse(rawData);
+
+        let companyName = parsed.querySelector('.pcstname');
+        let sector = parsed.querySelector('.moneyprice_bx').querySelectorAll('span')[7];
+        let sharePrice = parsed.querySelector('.nsedata_bx').querySelector('.div_live_price_wrap').querySelector('span');
+        let dayChange = parsed.querySelector('.nsedata_bx').querySelector('.div_live_price_wrap').querySelectorAll('span')[2].querySelector('em');
+        let oneYearLow = parsed.querySelector('.nsedata_bx').querySelectorAll('.open_lhs1')[0].childNodes[3].querySelectorAll('.low_high1')[1];
+        let oneYearHigh = parsed.querySelector('.nsedata_bx').querySelectorAll('.open_lhs1')[0].childNodes[3].querySelectorAll('.low_high3')[1];
+        let marketCap = parsed.querySelectorAll('.value_list')[1].childNodes[1].querySelectorAll('.value_txtfr')[0];
+        let peRatio = parsed.querySelectorAll('.value_list')[0].childNodes[1].querySelectorAll('.value_txtfr')[1];
+        let industryPe = parsed.querySelectorAll('.value_list')[1].childNodes[3].querySelectorAll('.value_txtfr')[1];
+
+        this.setState({
+            aartiIndustries: {
+                "companyName": companyName.innerHTML,
+                "sector": sector.innerHTML,
+                "sharePrice": sharePrice.innerHTML,
+                "dayChange": dayChange.innerHTML,
+                "oneYearLow": oneYearLow.innerHTML,
+                "oneYearHigh": oneYearHigh.innerHTML,
+                "marketCap": marketCap.innerHTML,
+                "peRatio": peRatio.innerHTML,
+                "industryPe": industryPe.innerHTML
+            }
+        })
+    }
+
+    render() {
+        const aartiIndustriesData = this.state.aartiIndustriesData;
+
+        if (aartiIndustriesData === null) {
+            return null;
+        }
+
+        return (
+            <div>
+                <button onClick={this.handleAarti.bind(this)} className={['stockLabels', 'qwerty', 'asdf'].join(' ')}>Get Data</button>
+                <div className={styles.companyContainer}>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Company: {this.state.aartiIndustries.companyName}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Sector: {this.state.aartiIndustries.sector}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Share Price: {this.state.aartiIndustries.sharePrice}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Day's Change: {this.state.aartiIndustries.dayChange}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>52 Week Low: {this.state.aartiIndustries.oneYearLow}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>52 Week High: {this.state.aartiIndustries.oneYearHigh}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Market Cap: {this.state.aartiIndustries.marketCap}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>PE Ratio: {this.state.aartiIndustries.peRatio}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Industry PE: {this.state.aartiIndustries.industryPe}</div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default AartiIndusrties;
+
+
+
+
+
+
+
+
+
+_apolloTyres.js:
+import React, { Component } from 'react';
+import axios from 'axios';
+import parse from 'node-html-parser';
+import styles from './invest.css';
+
+class ApolloTyres extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            apolloTyresData: null,
+            apolloTyres: {
+
+            }
+        }
+    }
+
+    componentDidMount() {
+        const apolloTyresURL = 'https://www.moneycontrol.com/india/stockpricequote/tyres/apollotyres/AT14';
+
+        const header = {
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Allow-Origin": "*",
+            "User-Agent": "PostmanRuntime/7.22.0",
+            "Accept": "*/*",
+            "Postman-Token": "6dd814e9-4517-4ab3-8b14-0d4630576312",
+            "X-Frame-Options": "SAMEORIGIN"
+        }
+
+        axios.get(apolloTyresURL, header).then(res => {
+            this.setState({
+                apolloTyresData: res.data
+            })
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    
+
+    handleApollo = () => {
+        //AARTI INDUSTRIES
+        let rawData = this.state.apolloTyresData;
+        const parsed = parse(rawData);
+
+        let companyName = parsed.querySelector('.pcstname');
+        let sector = parsed.querySelector('.moneyprice_bx').querySelectorAll('span')[7];
+        let sharePrice = parsed.querySelector('.nsedata_bx').querySelector('.div_live_price_wrap').querySelector('span');
+        let dayChange = parsed.querySelector('.nsedata_bx').querySelector('.div_live_price_wrap').querySelectorAll('span')[2].querySelector('em');
+        let oneYearLow = parsed.querySelector('.nsedata_bx').querySelectorAll('.open_lhs1')[0].childNodes[3].querySelectorAll('.low_high1')[1];
+        let oneYearHigh = parsed.querySelector('.nsedata_bx').querySelectorAll('.open_lhs1')[0].childNodes[3].querySelectorAll('.low_high3')[1];
+        let marketCap = parsed.querySelectorAll('.value_list')[1].childNodes[1].querySelectorAll('.value_txtfr')[0];
+        let peRatio = parsed.querySelectorAll('.value_list')[0].childNodes[1].querySelectorAll('.value_txtfr')[1];
+        let industryPe = parsed.querySelectorAll('.value_list')[1].childNodes[3].querySelectorAll('.value_txtfr')[1];
+
+        this.setState({
+            apolloTyres: {
+                "companyName": companyName.innerHTML,
+                "sector": sector.innerHTML,
+                "sharePrice": sharePrice.innerHTML,
+                "dayChange": dayChange.innerHTML,
+                "oneYearLow": oneYearLow.innerHTML,
+                "oneYearHigh": oneYearHigh.innerHTML,
+                "marketCap": marketCap.innerHTML,
+                "peRatio": peRatio.innerHTML,
+                "industryPe": industryPe.innerHTML
+            }
+        })
+    }
+
+    render() {
+        const apolloTyresData = this.state.apolloTyresData;
+
+        if (apolloTyresData === null) {
+            return null;
+        }
+
+        return (
+            <div>
+                <button onClick={this.handleApollo.bind(this)} className={['stockLabels', 'qwerty', 'asdf'].join(' ')}>Get Data</button>
+                <div className={styles.companyContainer}>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Company: {this.state.apolloTyres.companyName}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Sector: {this.state.apolloTyres.sector}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Share Price: {this.state.apolloTyres.sharePrice}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Day's Change: {this.state.apolloTyres.dayChange}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>52 Week Low: {this.state.apolloTyres.oneYearLow}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>52 Week High: {this.state.apolloTyres.oneYearHigh}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Market Cap: {this.state.apolloTyres.marketCap}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>PE Ratio: {this.state.apolloTyres.peRatio}</div>
+                    <div className={['huell', 'walter', 'jesse'].join(' ')}>Industry PE: {this.state.apolloTyres.industryPe}</div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default ApolloTyres;
+
+
+
+
+// let one = "https://api.storyblok.com/v1/cdn/stories/health?version=published&token=wANpEQEsMYGOwLxwXQ76Ggtt"
+// let two = "https://api.storyblok.com/v1/cdn/datasources/?token=wANpEQEsMYGOwLxwXQ76Ggtt"
+// let three = "https://api.storyblok.com/v1/cdn/stories/vue?version=published&token=wANpEQEsMYGOwLxwXQ76Ggtt"
+
+// const requestOne = axios.get(one);
+// const requestTwo = axios.get(two);
+// const requestThree = axios.get(three);
+
+// axios.all([requestOne, requestTwo, requestThree]).then(axios.spread((...responses) => {
+//   const responseOne = responses[0]
+//   const responseTwo = responses[1]
+//   const responesThree = responses[2]
+//   // use/access the results 
+// })).catch(errors => {
+//   // react on errors.
+// })
+// https://cors-escape.herokuapp.com/
+// const URL = 'https://cors-anywhere.herokuapp.com/https://www.tickertape.in/stocks/aarti-industries-ARTI';
+//const URL2 = 'https://cors-escape.herokuapp.com/https://www.nseindia.com/get-quotes/equity?symbol=AARTIIND';
+//let apolloTyres = 'https://www.moneycontrol.com/india/stockpricequote/chemicals/apolloTyres/AI45';
+
